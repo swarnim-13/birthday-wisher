@@ -1,0 +1,222 @@
+/* ========== GLOBAL RESET ========== */
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  /* ✅ BACKGROUND IMAGE + OVERLAY */
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.45),
+      rgba(0, 0, 0, 0.45)
+    ),
+    url("1751533206phpnSdZJN.jpeg");
+
+  background-size: 75%;
+  background-position: center;
+  /* background-repeat: no-repeat; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ========== MAIN CONTAINER ========== */
+.container {
+  background: rgba(216, 103, 4, 0.3);
+  backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* ========== TEXT ========== */
+h1 {
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #eee;
+}
+
+/* ========== INPUTS & BUTTONS ========== */
+input,
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  background: #ff6a88;
+  color: white;
+  cursor: pointer;
+}
+
+/* ========== DATE PLACEHOLDER (SEARCH) ========== */
+.date-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.date-wrapper input[type="date"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+}
+
+.date-placeholder {
+  position: absolute;
+  top: 60%;
+  left: 170px;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-size: 24px;
+  pointer-events: none;
+  transition: 0.2s ease;
+}
+
+.date-wrapper input:focus + .date-placeholder,
+.date-wrapper input:valid + .date-placeholder {
+  opacity: 0;
+}
+
+/* 🔒 Hide YEAR only for search input */
+.search-date::-webkit-datetime-edit-year-field {
+  display: none;
+}
+
+.search-date::-webkit-datetime-edit-text {
+  color: transparent;
+}
+
+.search-date::-webkit-datetime-edit-month-field,
+.search-date::-webkit-datetime-edit-day-field {
+  color: #000;
+}
+
+/* ========== DIVIDER ========== */
+.divider {
+  margin: 25px 0;
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.4);
+}
+
+/* ========== CARDS GRID (FIXED SIZE) ========== */
+.cards {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 420px);
+  justify-content: center;
+  gap: 20px;
+}
+
+/* ========== BIRTHDAY CARD ========== */
+.birthday-card {
+  width: 420px;
+  background: #fff;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* ========== CARD TEMPLATE ========== */
+.card-template {
+  position: relative;
+  width: 100%;
+}
+
+.template-img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+/* ========== NAME + COURSE OVERLAY ========== */
+.birthday-text {
+  position: absolute;
+  top: 170px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.birthday-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1f2d3d;
+  font-family: "Georgia", "Times New Roman", serif;
+  white-space: nowrap;
+}
+
+.birthday-course {
+  margin-top: 8px;
+  font-size: 15px;
+  color: #334155;
+  font-family: Arial, sans-serif;
+}
+
+/* ========== CARD BUTTONS ========== */
+.download-btn {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  background: #667eea;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ========== MESSAGE TEXT ========== */
+#message {
+  color: #d4ffea;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ========== MOBILE FIX ========== */
+@media (max-width: 480px) {
+  body {
+    background-size: 110%;
+  }
+
+  .birthday-card {
+    width: 100%;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mail-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: #ff6a88;
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mail-btn:hover {
+  background: #e25572;
+}

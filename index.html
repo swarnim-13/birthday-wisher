@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Wisher 🎉</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>🎂 Birthday Wisher</h1>
+    <p>Select a date to see who’s celebrating 🎉</p>
+
+    <!-- 🔍 Find Birthday (Year hidden, placeholder works) -->
+    <div class="date-wrapper">
+      <input type="date" id="datePicker" class="search-date" required>
+      <label for="datePicker" class="date-placeholder">
+        ADD date from calendar
+      </label>
+    </div>
+
+    <button onclick="showBirthdays()">Show Birthdays</button>
+
+    <!-- Cards -->
+    <div id="cards" class="cards"></div>
+
+    <!-- Divider -->
+    <hr class="divider">
+
+    <!-- ➕ Add Birthday -->
+    <h2>➕ Add Your Birthday</h2>
+
+    <input type="text" id="nameInput" placeholder="Your Name">
+    <input type="text" id="courseInput" placeholder="Your Course">
+    <input type="email" id="emailInput" placeholder="Recipient Email">
+    <input type="date" id="birthdateInput" class="add-date">
+
+    <button onclick="addBirthday()">Add Birthday</button>
+
+    <p id="message"></p>
+  </div>
+
+  <!-- html2canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>

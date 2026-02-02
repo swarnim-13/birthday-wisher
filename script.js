@@ -1,5 +1,5 @@
 // 🎂 Initial Sample Data
-const birthdayData = {
+let birthdayData = JSON.parse(localStorage.getItem("birthdayData")) || {
   "08-15": [
     { name: "Keshav Parashar", course: "B.Tech AIML", email: "keshav@gmail.com" },
     { name: "Shruti Vyas", course: "Bsc Chemistry", email: "shruti@gmail.com" }
@@ -137,7 +137,9 @@ function addBirthday() {
     email
   });
 
-  message.innerText = "🎉 Birthday added successfully!";
+message.innerText = "🎉 Birthday added successfully!";
+localStorage.setItem("birthdayData", JSON.stringify(birthdayData));
+
 }
 
  

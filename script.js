@@ -58,17 +58,16 @@ function showBirthdays() {
 const body = encodeURIComponent(
 `Dear ${person.name},
 
-Wishing you a very Happy Birthday 🎂
-(${person.course})
-
-👉 Birthday Card Link:
-https://birthday-wisher-azure.vercel.app/card.html?name=Shruti%20Vyas&course=Bsc%20Chemistry
+Wishing you a very Happy Birthday 🎂 We wish for your bright future  
+(${person.name}) , (${person.course})
 
 
-Click the link above to view or download your birthday card.
+'Your Birthday Card is Attached Below'
+
+
 
 Best wishes,
-Ar. Achal K Choudhary`
+IPS-ACADEMY`
 );
 
 const gmailLink =

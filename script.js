@@ -7,7 +7,25 @@ const birthdayData = {
   "02-22": [
     { name: "Sneha Iyer", course: "B.Tech CSE", email: "sneha@gmail.com" },
     { name: "Yash Gautam", course: "MBA", email: "yash@gmail.com" }
-  ]
+  ],
+    "04-10": [
+    { name: "Shubh Soni", course: "B.Tech CSE", email: "shubhsoni43@gmail.com" },
+    { name: "Shruti saxena", course: "Bsc Chemistry", email: "shruti@gmail.com" }
+  ],
+  "02-5": [
+    { name: "Raghav Goshal", course: "B.TecH FIRE & SAFETY", email: "goshal@gmail.com" }
+    
+  ],
+    "06-13": [
+    { name: "Charles Roy", course: "BBA", email: "charls1212@gmail.com" },
+  
+  ],
+  "12-25": [
+    { name: "Krishna murti", course: "B.Tech Data Science", email: "krishna345@gmail.com" },
+    { name: "Akash", course: "MBA", email: "akash@gmail.com" },
+    { name: "Gourav", course: "Msc Chemistry", email: "gourav45@gmail.com" }
+
+  ],
 };
 
 
@@ -44,7 +62,8 @@ Wishing you a very Happy Birthday 🎂
 (${person.course})
 
 👉 Birthday Card Link:
-https://birthday-wisher.vercel.app/birthdaypic.jpeg
+https://birthday-wisher-azure.vercel.app/card.html?name=Shruti%20Vyas&course=Bsc%20Chemistry
+
 
 Click the link above to view or download your birthday card.
 
@@ -65,13 +84,16 @@ card.innerHTML = `
     </div>
   </div>
 
-  <button class="download-btn" onclick="downloadCard('card-${index}')">
-    ⬇ Download Card
-  </button>
+ <button class="download-btn"
+  onclick="downloadAndSend(
+    'card-${index}',
+    '${person.email}',
+    '${person.name}',
+    '${person.course}'
+  )">
+  📩 Download & Send Card
+</button>
 
-  <a class="mail-btn" href="${gmailLink}" target="_blank">
-    📩 SEND EMAIL
-  </a>
 
   <p style="font-size:12px;color:#555;margin-top:6px">
     📌 Tip: Download the card and attach it in Gmail before sending
@@ -130,3 +152,43 @@ function downloadCard(cardId) {
     link.click();
   });
 }
+
+function downloadAndSend(cardId, email, name, course) {
+  const card = document.getElementById(cardId);
+
+  html2canvas(card).then(canvas => {
+    // 1️⃣ Download card
+    const link = document.createElement("a");
+    link.download = `${name}-birthday-card.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+
+    // 2️⃣ Show reminder to client
+    setTimeout(() => {
+      alert("⚠️ IMPORTANT:\n\nPlease ATTACH the downloaded BIRTHDAY CARD before sending the email.");
+    }, 300);
+
+    // 3️⃣ Open Gmail after reminder
+    setTimeout(() => {
+      const subject = encodeURIComponent("Happy Birthday 🎉");
+
+      const body = encodeURIComponent(
+`Dear ${name},
+
+Wishing you a very Happy Birthday 🎂
+(${course})
+
+Please find your birthday card attached.
+
+Best wishes,
+Ar. Achal K Choudhary`
+      );
+
+      const gmailLink =
+        `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+
+      window.open(gmailLink, "_blank");
+    }, 900); // thoda delay taaki alert padh le
+  });
+}
+

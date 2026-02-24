@@ -14,7 +14,7 @@ body {
       rgba(0, 0, 0, 0.45),
       rgba(0, 0, 0, 0.45)
     ),
-    url("1751533206phpnSdZJN.jpeg");
+    url("WhatsApp\ Image\ 2026-02-23\ at\ 1.59.02\ PM.jpeg");
 
   background-size: 75%;
   background-position: center;
@@ -59,7 +59,7 @@ button {
   margin-top: 12px;
   border-radius: 10px;
   border: none;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 button {
@@ -155,10 +155,11 @@ button {
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
+  
 }
 
 .birthday-name {
-  font-size: 16px;
+  font-size: 23px;
   font-weight: 500;
   color: #1f2d3d;
   font-family: "Georgia", "Times New Roman", serif;
@@ -167,7 +168,7 @@ button {
 
 .birthday-course {
   margin-top: 8px;
-  font-size: 15px;
+  font-size: 21px;
   color: #334155;
   font-family: Arial, sans-serif;
 }

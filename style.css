@@ -151,11 +151,28 @@ button {
 /* ========== NAME + COURSE OVERLAY ========== */
 .birthday-text {
   position: absolute;
-  top: 170px;
-  left: 50%;
+
+  /* Template ke center ke hisaab se adjust */
+  top: 90px;   /* yaha thoda upar niche adjust kar sakte ho */
+  left: 55%;
   transform: translateX(-50%);
+
   text-align: center;
-  
+  width: 80%;
+}
+
+.birthday-name {
+  font-size: 26px;
+  font-weight: 600;
+  color: #1a1a1a;
+  font-family: "Georgia", serif;
+}
+
+.birthday-course {
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #444;
 }
 
 .birthday-name {

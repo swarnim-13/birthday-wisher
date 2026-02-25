@@ -1,32 +1,15 @@
-// 🎂 Initial Sample Data
-let birthdayData = JSON.parse(localStorage.getItem("birthdayData")) || {
-  "08-15": [
-    { name: "Keshav Parashar", course: "B.Tech AIML", email: "keshav@gmail.com" },
-    { name: "Shruti Vyas", course: "Bsc Chemistry", email: "shruti@gmail.com" }
-  ],
-  "02-22": [
-    { name: "Sneha Iyer", course: "B.Tech CSE", email: "sneha@gmail.com" },
-    { name: "Yash Gautam", course: "MBA", email: "yash@gmail.com" }
-  ],
-    "04-10": [
-    { name: "Shubh Soni", course: "B.Tech CSE", email: "shubhsoni43@gmail.com" },
-    { name: "Shruti saxena", course: "Bsc Chemistry", email: "shruti@gmail.com" }
-  ],
-  "02-5": [
-    { name: "Raghav Goshal", course: "B.TecH FIRE & SAFETY", email: "goshal@gmail.com" }
-    
-  ],
-    "06-13": [
-    { name: "Charles Roy", course: "BBA", email: "charls1212@gmail.com" },
-  
-  ],
-  "12-25": [
-    { name: "Krishna murti", course: "B.Tech Data Science", email: "krishna345@gmail.com" },
-    { name: "Akash", course: "MBA", email: "akash@gmail.com" },
-    { name: "Gourav", course: "Msc Chemistry", email: "gourav45@gmail.com" }
+let birthdayData = {};
 
-  ],
-};
+// 📦 Load students.json
+fetch("students.json")
+  .then(response => response.json())
+  .then(data => {
+    birthdayData = data;
+    console.log("Students data loaded successfully");
+  })
+  .catch(error => {
+    console.error("Error loading students.json:", error);
+  });
 
 
 // 🎉 Show birthdays for selected date
@@ -44,72 +27,72 @@ function showBirthdays() {
   const formattedDate = dateInput.slice(5); // MM-DD
   const people = birthdayData[formattedDate];
 
-  if (!people) {
+  if (!people || people.length === 0) {
     cardsDiv.innerHTML = "<p style='color:white'>No birthdays on this day 🎈</p>";
     return;
   }
-  people.forEach((person, index) => {
+
+  const visibleCount = 4; // 👈 initially kitne cards dikhane hain
+
+  // Pehle 4 cards
+  people.slice(0, visibleCount).forEach((person, index) => {
+    createCard(person, index, cardsDiv);
+  });
+
+  // Agar 4 se zyada ho
+  if (people.length > visibleCount) {
+    const remaining = people.length - visibleCount;
+
+    const showMoreBtn = document.createElement("button");
+    showMoreBtn.innerText = `Show ${remaining} More 🎂`;
+    showMoreBtn.className = "download-btn";
+    showMoreBtn.style.marginTop = "20px";
+
+    showMoreBtn.onclick = () => {
+      people.slice(visibleCount).forEach((person, index) => {
+        createCard(person, index + visibleCount, cardsDiv);
+      });
+      showMoreBtn.remove();
+    };
+
+    cardsDiv.appendChild(showMoreBtn);
+  }
+}
+
+
+// 🪪 Card Creation Function
+function createCard(person, index, cardsDiv) {
   const card = document.createElement("div");
   card.className = "birthday-card";
   card.id = `card-${index}`;
 
- const subject = encodeURIComponent("Happy Birthday 🎉");
+  card.innerHTML = `
+    <div class="card-template">
+      <img src="birthdaypic.jpeg" class="template-img">
 
-const body = encodeURIComponent(
-`Dear ${person.name},
-
-Wishing you a very Happy Birthday 🎂 We wish for your bright future  
-(${person.name}) , (${person.course})
-
-
-'Your Birthday Card is Attached Below'
-
-
-
-Best wishes,
-IPS-ACADEMY`
-);
-
-const gmailLink =
-  `https://mail.google.com/mail/?view=cm&fs=1&to=${person.email}&su=${subject}&body=${body}`;
-
-card.innerHTML = `
-  <div class="card-template">
-    <img src="birthdaypic.jpeg" class="template-img">
-
-    <div class="birthday-text">
-      <div class="birthday-name">${person.name}</div>
-      <div class="birthday-course">${person.course}</div>
+      <div class="birthday-text">
+        <div class="birthday-name">${person.name}</div>
+        <div class="birthday-course">${person.course}</div>
+      </div>
     </div>
-  </div>
 
- <button class="download-btn"
-  onclick="downloadAndSend(
-    'card-${index}',
-    '${person.email}',
-    '${person.name}',
-    '${person.course}'
-  )">
-  📩 Download & Send Card
-</button>
+    <button class="download-btn"
+      onclick="downloadAndSend(
+        'card-${index}',
+        '${person.email}',
+        '${person.name}',
+        '${person.course}'
+      )">
+      📩 Download & Send Card
+    </button>
 
-
-  <p style="font-size:12px;color:#555;margin-top:6px">
-    📌 Tip: Download the card and attach it in Gmail before sending
-  </p>
-`;
-
-
-  
+    <p style="font-size:12px;color:#555;margin-top:6px">
+      📌 Tip: Download the card and attach it in Gmail before sending
+    </p>
+  `;
 
   cardsDiv.appendChild(card);
-});
-
-
-
-
-
-  }
+}
 
 
 // ➕ Add new birthday
@@ -137,12 +120,11 @@ function addBirthday() {
     email
   });
 
-message.innerText = "🎉 Birthday added successfully!";
-localStorage.setItem("birthdayData", JSON.stringify(birthdayData));
-
+  message.innerText = "🎉 Birthday added successfully!";
 }
 
- 
+
+// 📥 Download Only
 function downloadCard(cardId) {
   const card = document.getElementById(cardId);
 
@@ -154,23 +136,27 @@ function downloadCard(cardId) {
   });
 }
 
+
+// 📩 Download + Open Gmail
 function downloadAndSend(cardId, email, name, course) {
   const card = document.getElementById(cardId);
 
   html2canvas(card).then(canvas => {
+
     // 1️⃣ Download card
     const link = document.createElement("a");
     link.download = `${name}-birthday-card.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
 
-    // 2️⃣ Show reminder to client
+    // 2️⃣ Reminder alert
     setTimeout(() => {
       alert("⚠️ IMPORTANT:\n\nPlease ATTACH the downloaded BIRTHDAY CARD before sending the email.");
     }, 300);
 
-    // 3️⃣ Open Gmail after reminder
+    // 3️⃣ Open Gmail compose
     setTimeout(() => {
+
       const subject = encodeURIComponent("Happy Birthday 🎉");
 
       const body = encodeURIComponent(
@@ -182,14 +168,14 @@ Wishing you a very Happy Birthday 🎂
 Please find your birthday card attached.
 
 Best wishes,
-Ar. Achal K Choudhary`
+IPS-ACADEMY`
       );
 
       const gmailLink =
         `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
 
       window.open(gmailLink, "_blank");
-    }, 900); // thoda delay taaki alert padh le
+
+    }, 900);
   });
 }
-

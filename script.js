@@ -32,14 +32,14 @@ function showBirthdays() {
     return;
   }
 
-  const visibleCount = 4; // 👈 initially kitne cards dikhane hain
+  const visibleCount = 4;
 
-  // Pehle 4 cards
+  // First 4 cards
   people.slice(0, visibleCount).forEach((person, index) => {
     createCard(person, index, cardsDiv);
   });
 
-  // Agar 4 se zyada ho
+  // Show More button
   if (people.length > visibleCount) {
     const remaining = people.length - visibleCount;
 
@@ -57,6 +57,18 @@ function showBirthdays() {
 
     cardsDiv.appendChild(showMoreBtn);
   }
+
+  // ✅ Send All Button
+  const sendAllBtn = document.createElement("button");
+  sendAllBtn.innerText = "📨 Send Birthday Wishes To All";
+  sendAllBtn.className = "download-btn";
+  sendAllBtn.style.marginTop = "20px";
+
+  sendAllBtn.onclick = () => {
+    sendAllWishes(people);
+  };
+
+  cardsDiv.appendChild(sendAllBtn);
 }
 
 
@@ -77,105 +89,53 @@ function createCard(person, index, cardsDiv) {
     </div>
 
     <button class="download-btn"
-      onclick="downloadAndSend(
-        'card-${index}',
-        '${person.email}',
-        '${person.name}',
-        '${person.course}'
-      )">
-      📩 Download & Send Card
+      onclick="downloadCard('card-${index}')">
+      📥 Download Card
     </button>
-
-    <p style="font-size:12px;color:#555;margin-top:6px">
-      📌 Tip: Download the card and attach it in Gmail before sending
-    </p>
   `;
 
   cardsDiv.appendChild(card);
 }
 
 
-// ➕ Add new birthday
-function addBirthday() {
-  const name = document.getElementById("nameInput").value;
-  const course = document.getElementById("courseInput").value;
-  const birthdate = document.getElementById("birthdateInput").value;
-  const email = document.getElementById("emailInput").value;
-  const message = document.getElementById("message");
-
-  if (!name || !course || !birthdate || !email) {
-    message.innerText = "Please fill all fields ❗";
-    return;
-  }
-
-  const formattedDate = birthdate.slice(5); // MM-DD
-
-  if (!birthdayData[formattedDate]) {
-    birthdayData[formattedDate] = [];
-  }
-
-  birthdayData[formattedDate].push({
-    name,
-    course,
-    email
-  });
-
-  message.innerText = "🎉 Birthday added successfully!";
-}
-
-
-// 📥 Download Only
+// 📥 Download Card Only
 function downloadCard(cardId) {
   const card = document.getElementById(cardId);
 
   html2canvas(card).then(canvas => {
     const link = document.createElement("a");
     link.download = "birthday-card.png";
-    link.href = canvas.toDataURL();
+    link.href = canvas.toDataURL("image/png");
     link.click();
   });
 }
 
 
-// 📩 Download + Open Gmail
-function downloadAndSend(cardId, email, name, course) {
-  const card = document.getElementById(cardId);
+// 🚀 SEND ALL WISHES FUNCTION
+async function sendAllWishes(students) {
 
-  html2canvas(card).then(canvas => {
+  if (!confirm("Are you sure you want to send birthday wishes to all students?")) return;
 
-    // 1️⃣ Download card
-    const link = document.createElement("a");
-    link.download = `${name}-birthday-card.png`;
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+  try {
 
-    // 2️⃣ Reminder alert
-    setTimeout(() => {
-      alert("⚠️ IMPORTANT:\n\nPlease ATTACH the downloaded BIRTHDAY CARD before sending the email.");
-    }, 300);
+    const response = await fetch("/api/send-wishes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ students })
+    });
 
-    // 3️⃣ Open Gmail compose
-    setTimeout(() => {
+    const data = await response.json();
 
-      const subject = encodeURIComponent("Happy Birthday 🎉");
+    if (response.ok) {
+      alert("🎉 All birthday wishes sent successfully!");
+    } else {
+      alert("❌ " + data.message);
+    }
 
-      const body = encodeURIComponent(
-`Dear ${name},
-
-Wishing you a very Happy Birthday 🎂
-(${course})
-
-Please find your birthday card attached.
-
-Best wishes,
-IPS-ACADEMY`
-      );
-
-      const gmailLink =
-        `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-
-      window.open(gmailLink, "_blank");
-
-    }, 900);
-  });
+  } catch (error) {
+    alert("❌ Error sending emails");
+    console.error(error);
+  }
 }

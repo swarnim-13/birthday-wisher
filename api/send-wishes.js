@@ -34,6 +34,7 @@ module.exports = async function handler(req, res) {
         <div style="text-align:center;font-family:Arial;">
           <h2>Happy Birthday ${student.name} 🎉</h2>
           <p>Wishing you a wonderful year ahead!</p>
+          <P> Find Your Birthday Card Attached </p>
         </div>
       `,
       attachments: [

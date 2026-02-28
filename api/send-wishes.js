@@ -1,5 +1,7 @@
 const nodemailer = require("nodemailer");
 const path = require("path");
+const fs = require("fs");
+const { createCanvas, loadImage } = require("canvas");
 
 module.exports = async function handler(req, res) {
 
@@ -29,40 +31,57 @@ module.exports = async function handler(req, res) {
 
     for (let student of students) {
 
+      // Load base template image
+      const templatePath = path.join(process.cwd(), "birthday-template.jpeg");
+      const image = await loadImage(templatePath);
+
+      // Create canvas same size as template
+      const canvas = createCanvas(image.width, image.height);
+      const ctx = canvas.getContext("2d");
+
+      // Draw template
+      ctx.drawImage(image, 0, 0);
+
+      // 🔥 Draw Name
+      ctx.font = "bold 60px Arial";
+      ctx.fillStyle = "#e91e63";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        student.name,
+        canvas.width / 2,
+        200
+      );
+
+      // 🔥 Draw Course
+      ctx.font = "40px Arial";
+      ctx.fillStyle = "#444";
+      ctx.fillText(
+        student.course,
+        canvas.width / 2,
+        270
+      );
+
+      // Convert canvas to buffer
+      const buffer = canvas.toBuffer("image/jpeg");
+
       await transporter.sendMail({
-  from: `"IPS Academy" <${process.env.EMAIL_USER}>`,
-  to: student.email,
-  subject: `🎂 Happy Birthday ${student.name} 🎉`,
-  html: `
-    <div style="text-align:center;font-family:Arial;background:#fdf2f8;padding:30px;">
-      
-      <h1 style="color:#e91e63;margin-bottom:5px;">
-        🎉 Happy Birthday ${student.name} 🎂
-      </h1>
+        from: `"IPS Academy" <${process.env.EMAIL_USER}>`,
+        to: student.email,
+        subject: `🎂 Happy Birthday ${student.name} 🎉`,
+        html: `
+          <div style="text-align:center;font-family:Arial;padding:20px;">
+            <h2>Happy Birthday ${student.name} 🎉</h2>
+            <p>Wishing you a wonderful year ahead!</p>
+          </div>
+        `,
+        attachments: [
+          {
+            filename: "birthday-card.jpg",
+            content: buffer,
+          }
+        ]
+      });
 
-      <p style="font-size:18px;color:#444;margin-top:0;">
-        ${student.course}
-      </p>
-
-      <img src="cid:birthdaycard"
-           style="width:400px;border-radius:12px;margin:20px 0;" />
-
-      <p style="font-size:16px;color:#333;">
-        Wishing you a wonderful year filled with happiness and success!
-      </p>
-
-      <strong style="color:#000;">IPS Academy</strong>
-
-    </div>
-  `,
-  attachments: [
-    {
-      filename: "birthday-template.jpeg",
-      path: path.join(process.cwd(), "birthday-template.jpeg"),
-      cid: "birthdaycard"
-    }
-  ]
-});
       successCount++;
 
       await new Promise(resolve => setTimeout(resolve, 500));

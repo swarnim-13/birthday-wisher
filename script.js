@@ -114,28 +114,25 @@ function downloadCard(cardId) {
 // 🚀 SEND ALL WISHES FUNCTION
 async function sendAllWishes(students) {
 
-  if (!confirm("Are you sure you want to send birthday wishes to all students?")) return;
+  if (!confirm("Send birthday wishes to all students?")) return;
 
-  try {
+  for (let i = 0; i < students.length; i++) {
 
-    const response = await fetch("/api/send-wishes", {
+    const cardElement = document.getElementById(`card-${i}`);
+    const canvas = await html2canvas(cardElement);
+    const imageBase64 = canvas.toDataURL("image/jpeg");
+
+    await fetch("/api/send-wishes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ students })
+      body: JSON.stringify({
+        student: students[i],
+        image: imageBase64
+      })
     });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      alert("🎉 All birthday wishes sent successfully!");
-    } else {
-      alert("❌ " + data.message);
-    }
-
-  } catch (error) {
-    alert("❌ Error sending emails");
-    console.error(error);
   }
+
+  alert("🎉 All birthday wishes sent successfully!");
 }

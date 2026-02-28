@@ -39,7 +39,7 @@ export default async function handler(req, res) {
             <p style="font-size:16px;">(${student.course})</p>
             
            <img 
-  src="https://birthday-wisher.vercel.app/birthday-template.jpeg" 
+  src="https://birthday-wisher-azure.vercel.app/birthday-template.jpeg" 
   width="400" 
   style="border-radius:10px;margin:20px 0;"
 />

@@ -1,11 +1,7 @@
-import nodemailer from "nodemailer";
-import path from "path";
-import { fileURLToPath } from "url";
+const nodemailer = require("nodemailer");
+const path = require("path");
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
 
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
@@ -42,7 +38,7 @@ export default async function handler(req, res) {
             <h1 style="color:#ff4081;">🎉 Happy Birthday ${student.name} 🎂</h1>
             <p style="font-size:16px;">(${student.course})</p>
 
-            <img src="cid:birthdaycard" 
+            <img src="cid:birthdaycard"
                  width="400"
                  style="border-radius:10px;margin:20px 0;" />
 
@@ -79,4 +75,4 @@ export default async function handler(req, res) {
       error: error.message
     });
   }
-}
+};

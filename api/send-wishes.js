@@ -30,41 +30,39 @@ module.exports = async function handler(req, res) {
     for (let student of students) {
 
       await transporter.sendMail({
-        from: `"IPS Academy" <${process.env.EMAIL_USER}>`,
-        to: student.email,
-        subject: "🎂 Happy Birthday 🎉",
-        html: `
-  <div style="text-align:center;font-family:Arial;padding:20px;">
-    
-    <h1 style="color:#ff4081;">
-      🎉 Happy Birthday ${student.name} 🎂
-    </h1>
+  from: `"IPS Academy" <${process.env.EMAIL_USER}>`,
+  to: student.email,
+  subject: `🎂 Happy Birthday ${student.name} 🎉`,
+  html: `
+    <div style="text-align:center;font-family:Arial;background:#fdf2f8;padding:30px;">
+      
+      <h1 style="color:#e91e63;margin-bottom:5px;">
+        🎉 Happy Birthday ${student.name} 🎂
+      </h1>
 
-    <h2 style="color:#555;">
-      ${student.course}
-    </h2>
+      <p style="font-size:18px;color:#444;margin-top:0;">
+        ${student.course}
+      </p>
 
-    <img src="cid:birthdaycard"
-         width="400"
-         style="border-radius:10px;margin:20px 0;" />
+      <img src="cid:birthdaycard"
+           style="width:400px;border-radius:12px;margin:20px 0;" />
 
-    <p style="font-size:16px;">
-      Wishing you a wonderful year filled with success and happiness!
-    </p>
+      <p style="font-size:16px;color:#333;">
+        Wishing you a wonderful year filled with happiness and success!
+      </p>
 
-    <br/>
-    <strong style="color:#333;">IPS ACADEMY</strong>
-  </div>
-`,
-        attachments: [
-          {
-            filename: "birthday-template.jpeg",
-            path: path.join(process.cwd(), "birthday-template.jpeg"),
-            cid: "birthdaycard"
-          }
-        ]
-      });
+      <strong style="color:#000;">IPS Academy</strong>
 
+    </div>
+  `,
+  attachments: [
+    {
+      filename: "birthday-template.jpeg",
+      path: path.join(process.cwd(), "birthday-template.jpeg"),
+      cid: "birthdaycard"
+    }
+  ]
+});
       successCount++;
 
       await new Promise(resolve => setTimeout(resolve, 500));

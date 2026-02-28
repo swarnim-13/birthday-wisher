@@ -34,22 +34,28 @@ module.exports = async function handler(req, res) {
         to: student.email,
         subject: "🎂 Happy Birthday 🎉",
         html: `
-          <div style="text-align:center;font-family:Arial;padding:20px;">
-            <h1 style="color:#ff4081;">🎉 Happy Birthday ${student.name} 🎂</h1>
-            <p style="font-size:16px;">(${student.course})</p>
+  <div style="text-align:center;font-family:Arial;padding:20px;">
+    
+    <h1 style="color:#ff4081;">
+      🎉 Happy Birthday ${student.name} 🎂
+    </h1>
 
-            <img src="cid:birthdaycard"
-                 width="400"
-                 style="border-radius:10px;margin:20px 0;" />
+    <h2 style="color:#555;">
+      ${student.course}
+    </h2>
 
-            <p style="font-size:16px;">
-              Wishing you a wonderful year filled with success and happiness!
-            </p>
+    <img src="cid:birthdaycard"
+         width="400"
+         style="border-radius:10px;margin:20px 0;" />
 
-            <br/>
-            <strong style="color:#333;">IPS ACADEMY</strong>
-          </div>
-        `,
+    <p style="font-size:16px;">
+      Wishing you a wonderful year filled with success and happiness!
+    </p>
+
+    <br/>
+    <strong style="color:#333;">IPS ACADEMY</strong>
+  </div>
+`,
         attachments: [
           {
             filename: "birthday-template.jpeg",

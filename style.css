@@ -165,7 +165,7 @@ button {
 }
 
 .birthday-name {
-  font-size: 17px;
+  font-size: 27px;
   font-weight: 600;
   color: #1a1a1a;
   font-family: "Georgia", serif;
@@ -173,13 +173,13 @@ button {
 
 .birthday-course {
   margin-top: 8px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   color: #444;
 }
 
 .birthday-name {
-  font-size: 17px;
+  font-size: 27px;
   font-weight:1700;
   color: #1f2d3d;
   font-family: "Georgia", "Times New Roman", serif;
@@ -188,8 +188,8 @@ button {
 
 .birthday-course {
   margin-top: 8px;
-  font-size: 20px;
-  color: #334155;
+  font-size: 18px;
+  color: #243447;
   font-family: Arial, sans-serif;
 }
 

@@ -119,7 +119,13 @@ async function sendAllWishes(students) {
   for (let i = 0; i < students.length; i++) {
 
     const cardElement = document.getElementById(`card-${i}`);
-    const canvas = await html2canvas(cardElement);
+    const canvas = await html2canvas(cardElement, {
+  scale: 2,
+  useCORS: true,
+  allowTaint: true,
+  scrollY: -window.scrollY
+});
+    
     const imageBase64 = canvas.toDataURL("image/jpeg");
 
     await fetch("/api/send-wishes", {

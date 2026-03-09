@@ -146,16 +146,16 @@ button {
 /* ========== NAME + COURSE OVERLAY ========== */
 .birthday-text {
   position: absolute;
-  top: 88px;
-  left: 54%;
+  top: 142px;
+  left: 53%;
   transform: translateX(-50%);
   text-align: center;
   width: 80%;
 }
 
 .birthday-name {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 23px;
+  font-weight: 650;
   color: #1f2d3d;
   font-family: Georgia, serif;
   white-space: nowrap;

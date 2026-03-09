@@ -80,7 +80,7 @@ function createCard(person, index, cardsDiv) {
 
   card.innerHTML = `
     <div class="card-template">
-      <img src="birthday-template.jpeg" class="template-img">
+      <img src="birthdaycard.jpeg" class="template-img">
 
       <div class="birthday-text">
         <div class="birthday-name">${person.name}</div>

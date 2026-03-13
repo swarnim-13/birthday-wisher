@@ -14,6 +14,7 @@ fetch("students.json")
 
 // 🎉 Show birthdays for selected date
 function showBirthdays() {
+
   const dateInput = document.getElementById("datePicker").value;
   const cardsDiv = document.getElementById("cards");
 
@@ -24,7 +25,7 @@ function showBirthdays() {
     return;
   }
 
-  const formattedDate = dateInput.slice(5); // MM-DD
+  const formattedDate = dateInput.slice(5);
   const people = birthdayData[formattedDate];
 
   if (!people || people.length === 0) {
@@ -34,46 +35,58 @@ function showBirthdays() {
 
   const visibleCount = 4;
 
-  // First 4 cards
-  people.slice(0, visibleCount).forEach((person, index) => {
-    createCard(person, index, cardsDiv);
-  });
+  /* ---------------- SHOW MORE BUTTON ---------------- */
 
-  // Show More button
+  let showMoreBtn;
+
   if (people.length > visibleCount) {
+
     const remaining = people.length - visibleCount;
 
-    const showMoreBtn = document.createElement("button");
+    showMoreBtn = document.createElement("button");
     showMoreBtn.innerText = `Show ${remaining} More 🎂`;
     showMoreBtn.className = "download-btn";
     showMoreBtn.style.marginTop = "20px";
 
+    cardsDiv.appendChild(showMoreBtn);
+
     showMoreBtn.onclick = () => {
+
       people.slice(visibleCount).forEach((person, index) => {
         createCard(person, index + visibleCount, cardsDiv);
       });
+
       showMoreBtn.remove();
     };
-
-    cardsDiv.appendChild(showMoreBtn);
   }
 
-  // ✅ Send All Button
+
+  /* ---------------- SEND ALL BUTTON ---------------- */
+
   const sendAllBtn = document.createElement("button");
   sendAllBtn.innerText = "📨 Send Birthday Wishes To All";
   sendAllBtn.className = "download-btn";
-  sendAllBtn.style.marginTop = "20px";
+  sendAllBtn.style.marginTop = "10px";
 
   sendAllBtn.onclick = () => {
     sendAllWishes(people);
   };
 
   cardsDiv.appendChild(sendAllBtn);
+
+
+  /* ---------------- FIRST 4 CARDS ---------------- */
+
+  people.slice(0, visibleCount).forEach((person, index) => {
+    createCard(person, index, cardsDiv);
+  });
+
 }
 
 
 // 🪪 Card Creation Function
 function createCard(person, index, cardsDiv) {
+
   const card = document.createElement("div");
   card.className = "birthday-card";
   card.id = `card-${index}`;
@@ -98,8 +111,9 @@ function createCard(person, index, cardsDiv) {
 }
 
 
-// 📥 Download Card Only
+// 📥 Download Card
 function downloadCard(cardId) {
+
   const card = document.getElementById(cardId);
 
   html2canvas(card).then(canvas => {
@@ -108,6 +122,7 @@ function downloadCard(cardId) {
     link.href = canvas.toDataURL("image/png");
     link.click();
   });
+
 }
 
 
@@ -119,13 +134,10 @@ async function sendAllWishes(students) {
   for (let i = 0; i < students.length; i++) {
 
     const cardElement = document.getElementById(`card-${i}`);
-    const canvas = await html2canvas(cardElement, {
-  scale: 2,
-  useCORS: true,
-  allowTaint: true,
-  scrollY: -window.scrollY
-});
-    
+
+    if (!cardElement) continue;
+
+    const canvas = await html2canvas(cardElement);
     const imageBase64 = canvas.toDataURL("image/jpeg");
 
     await fetch("/api/send-wishes", {
@@ -138,6 +150,9 @@ async function sendAllWishes(students) {
         image: imageBase64
       })
     });
+
+    // delay to avoid Gmail rate limit
+    await new Promise(r => setTimeout(r, 700));
   }
 
   alert("🎉 All birthday wishes sent successfully!");

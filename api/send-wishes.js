@@ -26,17 +26,52 @@ module.exports = async function handler(req, res) {
 
     const base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
+    // 🔗 👉 YAHAN GOOGLE FORM LINK DAALNA HAI
+    const formLink = "https://docs.google.com/forms/d/e/1FAIpQLSfeUIZmMUfkjzDN1MxnTjoOUipVVs0AV5tNzCgFj670EZGUnQ/viewform?usp=publish-editor";
+
     await transporter.sendMail({
       from: `"IPS Academy" <${process.env.EMAIL_USER}>`,
       to: student.email,
       subject: `🎂 Happy Birthday ${student.name} 🎉`,
+
       html: `
-        <div style="text-align:center;font-family:Arial;">
-          <h2>Happy Birthday ${student.name} 🎉</h2>
-          <p>Wishing you a wonderful year ahead!</p>
-          <P> Find Your Birthday Card Attached </p>
+        <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+          
+          <h2 style="color:#e91e63;">🎉 Happy Birthday ${student.name}! 🎂</h2>
+
+          <p style="font-size:16px;">
+            Wishing you a wonderful year ahead filled with happiness, success and good health.
+          </p>
+
+          <p style="margin-top:10px;">
+            🎁 Your birthday card is attached with this email.
+          </p>
+
+          <hr style="margin:20px 0;">
+
+          <p style="font-size:15px;">
+            👉 Please take a moment to fill this short form:
+          </p>
+
+          <a href="${formLink}" 
+             style="display:inline-block; padding:10px 18px; background:#667eea; color:#fff; text-decoration:none; border-radius:8px; margin-top:10px;">
+             Fill Birthday Form
+          </a>
+
+          <p style="margin-top:15px; font-size:13px; color:#555;">
+            Your response means a lot to us ❤️
+          </p>
+
+          <br>
+
+          <p style="font-size:14px;">
+            Best wishes,<br>
+            <strong>IPS Academy</strong>
+          </p>
+
         </div>
       `,
+
       attachments: [
         {
           filename: "birthday-card.jpg",

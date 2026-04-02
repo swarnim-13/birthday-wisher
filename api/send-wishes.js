@@ -55,7 +55,7 @@ module.exports = async function handler(req, res) {
 
           <a href="${formLink}" 
              style="display:inline-block; padding:10px 18px; background:#667eea; color:#fff; text-decoration:none; border-radius:8px; margin-top:10px;">
-             Fill Birthday Form
+             Fill Alumni Form
           </a>
 
           <p style="margin-top:15px; font-size:13px; color:#555;">

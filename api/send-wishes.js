@@ -71,7 +71,7 @@ module.exports = async function handler(req, res) {
             <strong>Dy.Registrar</strong>
             Alumni Cell
             07314014592
-            https://www.ipsacademy.org
+            IPS ACADEMY INDORE
           </p>
 
         </div>

@@ -37,10 +37,11 @@ module.exports = async function handler(req, res) {
       html: `
         <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
           
-          <h2 style="color:#e91e63;">🎉 Happy Birthday ${student.name}! 🎂</h2>
+          <h2 style="color:#e91e63;">🎉 Dear Alumnus  ${student.name}! 🎂</h2>
 
           <p style="font-size:16px;">
-            Wishing you a wonderful year ahead filled with happiness, success and good health.
+            On behalf of the Alumni Cell, I am pleased to forward a birthday card sent by Ar. Achal K. Choudhary Sir, President, 
+            IPSA Group of Educational Institutes. We wish you a very Happy Birthday and a wonderful year ahead filled with success, and happiness.
           </p>
 
           <p style="margin-top:10px;">
@@ -50,7 +51,8 @@ module.exports = async function handler(req, res) {
           <hr style="margin:20px 0;">
 
           <p style="font-size:15px;">
-            👉 Please take a moment to fill this short form:
+            👉 We also request you to kindly fill out the Alumni Form. This will help us stay connected with you and 
+            enable us to invite you to various institutional activities and events.
           </p>
 
           <a href="${formLink}" 
@@ -59,14 +61,17 @@ module.exports = async function handler(req, res) {
           </a>
 
           <p style="margin-top:15px; font-size:13px; color:#555;">
-            Your response means a lot to us ❤️
+            Looking forward to your continued association with us.
           </p>
 
           <br>
 
           <p style="font-size:14px;">
-            Best wishes,<br>
-            <strong>IPS Academy</strong>
+            Warm Regards,<br>
+            <strong>Dy.Registrar</strong>
+            Alumni Cell
+            07314014592
+            https://www.ipsacademy.org
           </p>
 
         </div>
